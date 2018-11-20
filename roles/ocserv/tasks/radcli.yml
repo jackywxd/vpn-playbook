@@ -1,0 +1,40 @@
+- name: download radcli
+  get_url:
+    url=https://github.com/radcli/radcli/releases/download/{{ radcli_version }}/radcli-{{ radcli_version }}.tar.gz
+    dest=/tmp/radcli-{{ radcli_version }}.tar.xz
+  tags:
+    - radcli
+
+- name: uncompress radcli
+  command: /bin/tar zxvf  /tmp/radcli-{{ radcli_version }}.tar.xz
+    chdir=/tmp/
+    creates=/tmp/radcli-{{ radcli_version }}
+  tags:
+    - radcli
+
+- name: build radcli
+  shell: ./configure --sysconfdir=/usr/local/etc/ && make && make install
+    chdir=/tmp/radcli-{{ radcli_version }}
+    creates=/usr/local/sbin/radcli
+  tags:
+    - radcli
+
+- name: create config file dir
+  file: path=/usr/local/etc/radcli/ state=directory
+  tags:
+    - radcli
+
+- name: create server config file
+  template: src=servers  dest=/usr/local/etc/radcli/servers
+  tags:
+    - radcli
+
+- name: create radiusclient config
+  template: src=radiusclient.conf  dest=/usr/local/etc/radcli/radiusclient.conf
+  tags:
+    - radcli
+
+- name: create dictionary
+  template: src=dictionary dest=/usr/local/etc/radcli/dictionary
+  tags:
+    - radcli

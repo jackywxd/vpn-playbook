@@ -1,10 +1,8 @@
----
-
-- hosts: all
+- hosts: openconnect
   roles:
     - common
     - role: thefinn93.letsencrypt
-      letsencrypt_cert_domains: 
+      letsencrypt_cert_domains:
         - "{{ ocserv_domain or inventory_hostname }}"
       tags:
         - letsencrypt

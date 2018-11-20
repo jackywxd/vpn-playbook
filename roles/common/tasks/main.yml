@@ -1,4 +1,3 @@
----
 #install common packages
 
 - name: update apt cache
@@ -8,32 +7,28 @@
     - update
 
 - name: install editor
-  action: apt pkg={{ item }} state=installed
-  with_items:
-    - vim
+  apt:
+    pkg: ["vim"]
+    state: present
   tags:
     - common
     - editor
 
 - name: install version control tools
-  action: apt pkg={{ item }} state=installed
-  with_items:
-    - git
+  apt:
+    pkg: ["git"]
+    state: present
   tags:
     - common
     - vcs
 
 - name: install common python packages
-  action: apt pkg={{ item }} state=installed
-  with_items:
-    - python-setuptools
-    - python-pip
-    - python-dev
-    - python-pycurl
+  apt:
+    pkg: ["python-setuptools", "python-pip", "python-dev", "python-pycurl"]
+    state: present
   tags:
     - common
     - python
-
 
 - name: install supervisor
   action: apt pkg={{ item }} state=installed

@@ -1,0 +1,3 @@
+{% for radius in ocserv_radius_servers %}
+{{ radius.host }}  {{ radius.secret }}
+{% endfor %}
