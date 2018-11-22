@@ -1,6 +1,4 @@
----
-
-- hosts: all
+- hosts: openconnect
   roles:
     - common
     - ocserv

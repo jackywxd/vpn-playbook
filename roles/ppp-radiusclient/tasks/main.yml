@@ -1,14 +1,13 @@
----
-#RadiusClient for PPP 
+#RadiusClient for PPP
 
-- name:  Enforce radiusclient is installed
-  action: apt pkg=radiusclient1 state=installed
+- name: Enforce radiusclient is installed
+  action: apt pkg=radiusclient state=installed
   tags: radius
 
-- name:   upload radiusclient config
+- name: upload radiusclient config
   action: template src=etc/radiusclient/{{ item }}
-                    dest=/etc/radiusclient/{{ device_type }}-{{ item }}
-                    owner=root group=root mode=0644
+    dest=/etc/radiusclient/{{ device_type }}-{{ item }}
+    owner=root group=root mode=0644
   with_items:
     - radiusclient.conf
     - servers
@@ -16,13 +15,13 @@
   tags: radius
 
 - name: fix can't resolve own hostname problem  - hostname
-  lineinfile: dest=/etc/hosts 
-              line="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
-              regexp="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
-              state=present
+  lineinfile: dest=/etc/hosts
+    line="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
+    regexp="{{ ansible_default_ipv4.address }} {{ ansible_hostname }}"
+    state=present
 
-- name: fix can't resolve own hostname problem - fqdn 
-  lineinfile: dest=/etc/hosts 
-              line="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
-              regexp="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
-              state=present
+- name: fix can't resolve own hostname problem - fqdn
+  lineinfile: dest=/etc/hosts
+    line="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
+    regexp="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
+    state=present
